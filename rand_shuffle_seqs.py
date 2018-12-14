@@ -9,15 +9,22 @@
 import gzip
 import random
 import string
+import sys
+import Bio
+from Bio import SeqIO
 
-# here is an example of how to take a list and extract a random set of values
-# you can comment out this code after you understand it
-# and see how you can do this same approach for a file of sequences
-example_list = list(string.ascii_lowercase)
+seq_file = sys.argv[1]
+seqs = SeqIO.parse( seq_file , "fasta")
 
-fifty_percent = int(0.5 * len(example_list))
-shuffled_list = random.sample(example_list,fifty_percent)
-print(shuffled_list)
+seq_list = list(seqs)
 
-for i in shuffled_list:
-  print(i)
+percent = float(sys.argv[2])
+percent_list = int(percent * len(seq_list))
+random_seqs = random.sample(seq_list, percent_list)
+
+for i in random_seqs:
+        print(i)
+
+#my format requires that the percentage be written as its decimal equivalent. I.E. 10% = 0.10    
+#filename is argument 1 and percent coverage is argument 2, so it should read as follows
+#python rand_shuffle_seqs.py [fasta filename] 0.10
